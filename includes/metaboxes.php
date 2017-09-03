@@ -1,9 +1,6 @@
 <?php
 
 
-
-
-
 /*
  * Add all MetaBoxes
  */
@@ -23,31 +20,69 @@ function caag_meta_boxes()
  */
 function caag_link_box_html()
 {
-	$meta = get_post_meta(get_post()->ID);
-	print_r($meta);
-	if(isset($meta[CAAG_FORMS_LINK])){
-		$link = $meta[CAAG_FORMS_LINK];
-		//var_dump($link);
+
+	if(isset(get_post_meta(get_post()->ID, CAAG_FORMS_LINK)[0])){
+		$link = get_post_meta(get_post()->ID, CAAG_FORMS_LINK)[0];
 	}else{
-		$link='';
+		$link = '';
 	}
 	?>
 	<div id="titlediv">
 		<div id="titlewrap">
 			<label class="screen-reader-text" id="title-prompt-text" for="title">Enter Link Here</label>
-			<input type="text" name="<?php echo CAAG_FORMS_LINK; ?>" size="30" value="<?php echo $link; ?>" id="title" spellcheck="true" autocomplete="off">
+			<input type="text" name="<?php echo CAAG_FORMS_LINK; ?>" size="30" value="<?php echo $link; ?>" id="title" spellcheck="true" autocomplete="off" placeholder="Enter Link">
 		</div>
 	<?php
 }
-
+/*
+ * Saving Post Meta Data
+ */
 function caag_form_save_post( $post_id )
 {
 	if ( get_post_type($post_id) != CAAG_CUSTOM_POST_TYPE ) return;
 	if ( isset( $_POST[CAAG_FORMS_LINK] ) ) {
 		update_post_meta( $post_id, CAAG_FORMS_LINK, $_POST[CAAG_FORMS_LINK] );
 		update_post_meta( $post_id, CAAG_FORMS_ID, get_caag_forms_count() );
-		update_post_meta( $post_id, CAAG_FORMS_SHORTCODE, '[caag_form id='.strval(get_caag_forms_count()).']' );
+		update_post_meta( $post_id, CAAG_FORMS_SHORTCODE, '[caag_form id='.get_caag_forms_count().']' );
 	}
 }
 add_action( 'save_post', 'caag_form_save_post');
 
+
+
+add_filter('manage_posts_columns', 'add_meta_column_link');
+function add_meta_column_link($defaults) {
+	$defaults[CAAG_FORMS_LINK] = 'Link';
+	return $defaults;
+}
+
+
+add_action( 'manage_posts_custom_column' , 'fill_meta_column_link', 10, 2 );
+function fill_meta_column_link($column_name, $post_id) {
+	if ($column_name == CAAG_FORMS_LINK) {
+		if(isset(get_post_meta($post_id, CAAG_FORMS_LINK)[0])){
+			echo get_post_meta($post_id, CAAG_FORMS_LINK)[0];
+		}else{
+			echo '';
+		}
+	}
+}
+
+
+add_filter('manage_posts_columns', 'add_meta_column_shortcode');
+function add_meta_column_shortcode($defaults) {
+	$defaults[CAAG_FORMS_SHORTCODE] = 'Shortcode';
+	return $defaults;
+}
+
+
+add_action( 'manage_posts_custom_column' , 'fill_meta_column_shortcode', 10, 2 );
+function fill_meta_column_shortcode($column_name, $post_id) {
+	if ($column_name == CAAG_FORMS_SHORTCODE) {
+		if(isset(get_post_meta($post_id, CAAG_FORMS_SHORTCODE)[0])){
+			echo get_post_meta($post_id, CAAG_FORMS_SHORTCODE)[0];
+		}else{
+			echo '';
+		}
+	}
+}

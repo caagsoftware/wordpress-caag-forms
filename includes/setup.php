@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * Register new Post Type
+ */
 function register_caag_forms_custom_post_type()
 {
 	$labels = array(
@@ -42,6 +44,6 @@ function register_caag_forms_custom_post_type()
 	register_post_type(CAAG_CUSTOM_POST_TYPE, $args);
 }
 /*
- * has to be init
+ * Adding Aciotn
  */
 add_action( 'init', 'register_caag_forms_custom_post_type' );

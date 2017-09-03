@@ -15,16 +15,18 @@ define('CAAG_FORMS_VERSION','0.1');
 define('CAAG_FORMS_ROOT', __FILE__);
 define('CAAG_CUSTOM_POST_TYPE','caag_form');
 define('CAAG_FORMS_SLUG','caag-forms');
+
 /*
  * Special Attributtes
  */
 define('CAAG_FORMS_LINK','caag_form_link');
-define('CAAG_FORMS_ID','caag_form_link');
-define('CAAG_FORMS_SHORTCODE','caag_form_link');
+define('CAAG_FORMS_ID','caag_form_id');
+define('CAAG_FORMS_SHORTCODE','caag_shortcode');
 
 require_once 'includes/setup.php';
 require_once 'includes/utils.php';
 require_once 'includes/metaboxes.php';
+require_once 'shortcodes/shortcodes.php';
 /*
  * Install Plugin
  */

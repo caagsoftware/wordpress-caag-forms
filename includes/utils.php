@@ -21,3 +21,14 @@ function get_caag_forms_count()
 	return wp_count_posts(CAAG_CUSTOM_POST_TYPE)->publish;
 }
 add_action('get_caag_form_count','get_caag_form_count');
+
+/*
+ *
+ */
+function get_caag_form_by_meta($meta_id)
+{
+	global $wpdb;
+	$meta = $wpdb->get_results('SELECT post_id FROM '.$wpdb->prefix.'postmeta WHERE meta_value = '.$meta_id.' and meta_key = "'.CAAG_FORMS_ID.'"');
+	return $meta;
+}
+add_action('get_caag_form_by_meta','get_caag_form_by_meta');
