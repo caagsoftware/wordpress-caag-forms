@@ -101,3 +101,17 @@ function fill_meta_column_shortcode($column_name, $post_id) {
 		}
 	}
 }
+
+function on_all_status_transitions( $new_status, $old_status, $post ) {
+	if ($old_status == 'pending' or $old_status = 'draft') {
+		if($new_status == 'publish'){
+			update_post_meta( $post->ID, CAAG_FORMS_SHORTCODE, '[caag_form id='.get_caag_forms_count().']' );
+		}
+	}
+	if($new_status == 'pending' or $new_status = 'draft'){
+		if($old_status == 'publish'){
+			update_post_meta( $post->ID, CAAG_FORMS_SHORTCODE, '' );
+		}
+	}
+}
+add_action('transition_post_status','on_all_status_transitions', 10, 3 );
