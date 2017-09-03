@@ -39,7 +39,7 @@ function register_caag_forms_custom_post_type()
 		'hierarchical'              => false,
 		'menu_position'             => 80,
 		'supports'                  => array('title'),
-		'menu_icon'                 => CAAG_FORMS_ROOT.'/imgs/caag_logo.png'
+		'menu_icon'                 => 'dashicons-feedback'
 	);
 	register_post_type(CAAG_CUSTOM_POST_TYPE, $args);
 }
