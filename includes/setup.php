@@ -28,7 +28,7 @@ function register_caag_forms_custom_post_type()
 		'public'                    => false,
 		'publicly_queryable'        => false,
 		'show_ui'                   => true,
-		'show_in_menu'              => 'true',
+		'show_in_menu'              => true,
 		'show_in_nav_menus'         => false,
 		'query_var'                 => true,
 		'rewrite'                   => array( 'slug' => CAAG_FORMS_SLUG ),
@@ -36,8 +36,12 @@ function register_caag_forms_custom_post_type()
 		'has_archive'               => false,
 		'hierarchical'              => false,
 		'menu_position'             => 80,
-		'supports'                  => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ),
+		'supports'                  => array('title'),
 		'menu_icon'                 => CAAG_FORMS_ROOT.'/imgs/caag_logo.png'
 	);
 	register_post_type(CAAG_CUSTOM_POST_TYPE, $args);
 }
+/*
+ * has to be init
+ */
+add_action( 'init', 'register_caag_forms_custom_post_type' );
