@@ -1,13 +1,13 @@
 <?php
 /**
  * @package caag-forms
- * @version 0.1
+ * @version 0.2
  */
 /*
 Plugin Name: Caag Forms
 Description: Use this plugin to easily add Caag Software Forms
 Author: Miguel Faggioni
-Version: 0.1
+Version: 0.2
 Author URI: https://www.caagsoftware.com/
 */
 

@@ -3,6 +3,7 @@
 
 /*
  * Add all MetaBoxes
+ * @return void
  */
 add_action('add_meta_boxes','caag_meta_boxes');
 function caag_meta_boxes()
@@ -15,6 +16,8 @@ function caag_meta_boxes()
 		'normal'
 	);
 }
+
+
 /*
  * Html Template for Form Link Metabox
  */
@@ -34,6 +37,8 @@ function caag_link_box_html()
 		</div>
 	<?php
 }
+
+
 /*
  * Saving Post Meta Data
  */
@@ -49,14 +54,19 @@ function caag_form_save_post( $post_id )
 add_action( 'save_post', 'caag_form_save_post');
 
 
-
+/*
+ * Add Meta Data columns to Post Table: Link
+ * Only Header and Footer
+ */
 add_filter('manage_posts_columns', 'add_meta_column_link');
 function add_meta_column_link($defaults) {
 	$defaults[CAAG_FORMS_LINK] = 'Link';
 	return $defaults;
 }
 
-
+/*
+ * Displaying Actual Meta Data Values: Link
+ */
 add_action( 'manage_posts_custom_column' , 'fill_meta_column_link', 10, 2 );
 function fill_meta_column_link($column_name, $post_id) {
 	if ($column_name == CAAG_FORMS_LINK) {
@@ -68,14 +78,19 @@ function fill_meta_column_link($column_name, $post_id) {
 	}
 }
 
-
+/*
+ * Add Meta Data columns to Post Table: Shortcode
+ * Only Header and Footer
+ */
 add_filter('manage_posts_columns', 'add_meta_column_shortcode');
 function add_meta_column_shortcode($defaults) {
 	$defaults[CAAG_FORMS_SHORTCODE] = 'Shortcode';
 	return $defaults;
 }
 
-
+/*
+ * Displaying Actual Meta Data Values: Shortcode
+ */
 add_action( 'manage_posts_custom_column' , 'fill_meta_column_shortcode', 10, 2 );
 function fill_meta_column_shortcode($column_name, $post_id) {
 	if ($column_name == CAAG_FORMS_SHORTCODE) {

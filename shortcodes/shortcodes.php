@@ -1,5 +1,9 @@
 <?php
-
+/*
+ * Register Caag Form Shortcode
+ * @param Array
+ * return string | html
+ */
 add_shortcode('caag_form','caag_form');
 function caag_form($atts = [])
 {

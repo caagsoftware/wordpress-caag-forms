@@ -1,6 +1,7 @@
 <?php
 /*
  * Register new Post Type
+ * @return void
  */
 function register_caag_forms_custom_post_type()
 {
@@ -20,10 +21,7 @@ function register_caag_forms_custom_post_type()
 		'not_found_in_trash' => 'No Form Found',
 		'attributes'         => 'Form Fields'
 	);
-
-	/*
-	 * Change Capaiblities in case of want to display cagg_form instead of post?...
-	 */
+	
 	$args = array(
 		'labels'                    => $labels,
 		'description'               => 'Caag Form Display Plugin',
@@ -44,6 +42,6 @@ function register_caag_forms_custom_post_type()
 	register_post_type(CAAG_CUSTOM_POST_TYPE, $args);
 }
 /*
- * Adding Aciotn
+ * Hook the registration function
  */
 add_action( 'init', 'register_caag_forms_custom_post_type' );
