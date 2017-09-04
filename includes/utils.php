@@ -49,3 +49,26 @@ function get_caag_form_by_meta($meta_id)
 	return $meta;
 }
 add_action('get_caag_form_by_meta','get_caag_form_by_meta');
+
+/*
+ * Save Plugin Settings
+ */
+function save_caag_forms_settings($settings)
+{
+	update_option(CAAG_FORMS_TENANT_TOKEN,$settings[CAAG_FORMS_TENANT_TOKEN]);
+	update_option(CAAG_FORMS_USER_TOKEN,$settings[CAAG_FORMS_USER_TOKEN]);
+	//wp_redirect('option.php');
+	//exit;
+}
+add_action('save_caag_forms_settings','save_caag_forms_settings');
+function check_setting_save($settings)
+{
+	$tenant = get_option(CAAG_FORMS_TENANT_TOKEN);
+	$user = get_option(CAAG_FORMS_USER_TOKEN);
+	if($tenant == $settings[CAAG_FORMS_TENANT_TOKEN] and $user == $settings[CAAG_FORMS_USER_TOKEN]){
+		return true;
+	}else{
+		return false;
+	}
+}
+add_action('check_setting_save','check_setting_save');

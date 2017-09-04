@@ -49,6 +49,8 @@ function caag_form_save_post( $post_id )
 		update_post_meta( $post_id, CAAG_FORMS_LINK, $_POST[CAAG_FORMS_LINK] );
 		update_post_meta( $post_id, CAAG_FORMS_ID, get_caag_forms_count() );
 		update_post_meta( $post_id, CAAG_FORMS_SHORTCODE, '[caag_form id='.get_caag_forms_count().']' );
+		wp_redirect('edit.php?post_type=caag_form');
+		exit;
 	}
 }
 add_action( 'save_post', 'caag_form_save_post');
