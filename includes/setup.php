@@ -45,3 +45,4 @@ function register_caag_forms_custom_post_type()
  * Hook the registration function
  */
 add_action( 'init', 'register_caag_forms_custom_post_type' );
+
