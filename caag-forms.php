@@ -33,7 +33,7 @@ require_once 'includes/setup.php';
 require_once 'includes/utils.php';
 require_once 'includes/metaboxes.php';
 require_once 'shortcodes/shortcodes.php';
-require 'includes/options.php';
+require_once 'includes/options.php';
 
 /*
  * Install Plugin
@@ -78,8 +78,8 @@ add_action('caag_forms_scripts','caag_forms_scripts');
  */
 
 /*
- * Hooking Function to Create Setting Submenu
- */
+* Hooking Function to Create Setting Submenu
+*/
 
 add_action('admin_menu', 'caag_forms_setting_menu');
 function caag_forms_setting_menu()
@@ -92,15 +92,14 @@ function caag_forms_setting_menu()
 		'caag_form_menu_setting_html'
 	);
 }
-
 function caag_form_menu_setting_html()
 {
 	$settings = get_caag_user_settings();
 	?>
 	<?php if(isset($success)): ?>
-		<div class="message updated"><p><?php echo $success; ?></p>
-		</div>
-	<?php endif; ?>
+	<div class="message updated"><p><?php echo $success; ?></p>
+	</div>
+<?php endif; ?>
 	<div class="wrap">
 		<div id="wrap">
 			<h1>Caag Software Authentication Access</h1>
@@ -129,22 +128,21 @@ function caag_form_menu_setting_html()
 		};
 	}
 	?>
-		<?php if(isset($success)): ?>
-			<div class="message updated"><p><?php echo $success; ?></p>
-			</div>
-			<script>
-				document.getElementById("wrap").remove();
-			</script>
-		<?php endif; ?>
+	<?php if(isset($success)): ?>
+	<div class="message updated"><p><?php echo $success; ?></p>
+	</div>
+	<script>
+		document.getElementById("wrap").remove();
+	</script>
+<?php endif; ?>
 
 	<?php if(isset($error)): ?>
-		<div class="message updated"><p><?php echo $error; ?></p>
-		</div>
-	<?php endif; ?>
+	<div class="message updated"><p><?php echo $error; ?></p>
+	</div>
+<?php endif; ?>
 	<?php
 
 }
-add_action('caag_form_menu_setting_html','caag_form_menu_setting_html');
 
 function add_caag_forms_setting_options()
 {
