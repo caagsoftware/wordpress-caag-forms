@@ -34,7 +34,7 @@ require_once 'includes/utils.php';
 require_once 'includes/metaboxes.php';
 require_once 'shortcodes/shortcodes.php';
 require_once 'includes/options.php';
-
+require_once 'includes/HttpClient.php';
 /*
  * Install Plugin
  */
@@ -43,6 +43,7 @@ function caag_forms_install()
 	if(!post_type_exists(CAAG_CUSTOM_POST_TYPE) and is_admin()){
 		register_caag_forms_custom_post_type();
 		add_caag_forms_setting_options();
+		save_caag_forms_init();
 	}
 
 }
@@ -97,9 +98,9 @@ function caag_form_menu_setting_html()
 	$settings = get_caag_user_settings();
 	?>
 	<?php if(isset($success)): ?>
-	<div class="message updated"><p><?php echo $success; ?></p>
-	</div>
-<?php endif; ?>
+		<div class="message updated"><p><?php echo $success; ?></p>
+		</div>
+	<?php endif; ?>
 	<div class="wrap">
 		<div id="wrap">
 			<h1>Caag Software Authentication Access</h1>

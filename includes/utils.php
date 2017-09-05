@@ -72,3 +72,15 @@ function check_setting_save($settings)
 	}
 }
 add_action('check_setting_save','check_setting_save');
+
+function get_caag_tenant_token()
+{
+	return get_option(CAAG_FORMS_TENANT_TOKEN);
+}
+add_action('get_caag_tenant_token','get_caag_tenant_token');
+
+function get_caag_user_token()
+{
+	return get_option(CAAG_FORMS_USER_TOKEN);
+}
+add_action('get_caag_user_token','get_caag_user_token');

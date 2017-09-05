@@ -1,6 +1,6 @@
 <?php
 
-
+require_once 'HttpClient.php';
 /*
  * Add all MetaBoxes
  * @return void
@@ -30,6 +30,7 @@ function caag_link_box_html()
 		$link = '';
 	}
 	?>
+
 	<div id="titlediv">
 		<div id="titlewrap">
 			<label class="screen-reader-text" id="title-prompt-text" for="title">Enter Link Here</label>
@@ -78,6 +79,14 @@ function fill_meta_column_link($column_name, $post_id) {
 			echo '';
 		}
 	}
+	$client = new HttpClient();
+	$data = $client->get('https://api.caagcrm.com/api/sheets');
+	var_dump($data->data);
+	//foreach ($data->data as $row){
+	//	print_r($row->report_title);
+	//}
+	//print_r($data->data);
+	die();
 }
 
 /*
