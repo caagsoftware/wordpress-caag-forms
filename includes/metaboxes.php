@@ -61,10 +61,29 @@ add_action( 'save_post', 'caag_form_save_post');
  * Add Meta Data columns to Post Table: Link
  * Only Header and Footer
  */
-add_filter('manage_posts_columns', 'add_meta_column_link');
-function add_meta_column_link($defaults) {
-	$defaults[CAAG_FORMS_LINK] = 'Link';
-	return $defaults;
+add_filter('manage_'.CAAG_CUSTOM_POST_TYPE.'_posts_columns', 'add_meta_columns');
+function add_meta_columns($defaults) {
+	$columns[CAAG_FORMS_CAAG_ID] = 'Identifier';
+	$columns[CAAG_FORMS_TITLE] = 'Title';
+	$columns[CAAG_FORMS_CATEGORY] = 'Category';
+	$columns[CAAG_FORMS_LINK] = 'Link';
+	$columns[CAAG_FORMS_SHORTCODE] = 'ShortCode';
+	$client = new HttpClient();
+	$caag_forms = $client->get('https://api.caagcrm.com/api/sheets')->data;
+	foreach ($caag_forms as $form){
+		if(!caag_forms_exists($form->id)){
+			$args = array(
+				'post_title' => $form->label,
+				'post_status' => 'publish',
+				'post_type' => CAAG_CUSTOM_POST_TYPE
+			);
+			$post_id = wp_insert_post($args);
+			update_post_meta($post_id, CAAG_FORMS_CAAG_ID, $form->id);
+			update_post_meta($post_id, CAAG_FORMS_LINK, $form->select_2_url);
+			update_post_meta($post_id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
+		}
+	}
+	return $columns;
 }
 
 /*
@@ -72,6 +91,25 @@ function add_meta_column_link($defaults) {
  */
 add_action( 'manage_posts_custom_column' , 'fill_meta_column_link', 10, 2 );
 function fill_meta_column_link($column_name, $post_id) {
+	if ($column_name == CAAG_FORMS_CAAG_ID) {
+		if(isset(get_post_meta($post_id, CAAG_FORMS_CAAG_ID)[0])){
+			echo get_post_meta($post_id, CAAG_FORMS_CAAG_ID)[0];
+		}else{
+			echo '';
+		}
+	}
+	if ($column_name == CAAG_FORMS_TITLE) {
+		$post = get_post($post_id);
+		echo $post->post_title;
+	}
+
+	if ($column_name == CAAG_FORMS_CATEGORY) {
+		if(isset(get_post_meta($post_id, CAAG_FORMS_CATEGORY)[0])){
+			echo get_post_meta($post_id, CAAG_FORMS_CATEGORY)[0];
+		}else{
+			echo '';
+		}
+	}
 	if ($column_name == CAAG_FORMS_LINK) {
 		if(isset(get_post_meta($post_id, CAAG_FORMS_LINK)[0])){
 			echo get_post_meta($post_id, CAAG_FORMS_LINK)[0];
@@ -79,29 +117,18 @@ function fill_meta_column_link($column_name, $post_id) {
 			echo '';
 		}
 	}
-	$client = new HttpClient();
-	$data = $client->get('https://api.caagcrm.com/api/sheets');
-	var_dump($data->data);
-	//foreach ($data->data as $row){
-	//	print_r($row->report_title);
-	//}
-	//print_r($data->data);
-	die();
-}
-
-/*
- * Add Meta Data columns to Post Table: Shortcode
- * Only Header and Footer
- */
-add_filter('manage_posts_columns', 'add_meta_column_shortcode');
-function add_meta_column_shortcode($defaults) {
-	$defaults[CAAG_FORMS_SHORTCODE] = 'Shortcode';
-	return $defaults;
+	if ($column_name == CAAG_FORMS_SHORTCODE) {
+		if(isset(get_post_meta($post_id, CAAG_FORMS_SHORTCODE)[0])){
+			echo get_post_meta($post_id, CAAG_FORMS_SHORTCODE)[0];
+		}else{
+			echo '';
+		}
+	}
 }
 
 /*
  * Displaying Actual Meta Data Values: Shortcode
- */
+ *
 add_action( 'manage_posts_custom_column' , 'fill_meta_column_shortcode', 10, 2 );
 function fill_meta_column_shortcode($column_name, $post_id) {
 	if ($column_name == CAAG_FORMS_SHORTCODE) {
@@ -112,7 +139,7 @@ function fill_meta_column_shortcode($column_name, $post_id) {
 		}
 	}
 }
-
+*/
 function on_all_status_transitions( $new_status, $old_status, $post ) {
 	if ($old_status == 'pending' or $old_status = 'draft') {
 		if($new_status == 'publish'){
@@ -126,3 +153,16 @@ function on_all_status_transitions( $new_status, $old_status, $post ) {
 	}
 }
 add_action('transition_post_status','on_all_status_transitions', 10, 3 );
+
+
+/**
+ * Example of current_screen usage
+ * @param $current_screen
+ */
+function wporg_current_screen_example( $current_screen ) {
+	if ( 'someposttype' == $current_screen->post_type && 'post' == $current_screen->base ) {
+		// Do something in the edit screen of this post type
+		echo 'okidoki';
+	}
+}
+add_action( 'current_screen', 'wporg_current_screen_example' );

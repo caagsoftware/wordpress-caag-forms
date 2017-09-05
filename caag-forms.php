@@ -23,11 +23,13 @@ define('CAAG_FORMS_SLUG','caag-forms');
  * Special Plugin Attributtes
  */
 define('CAAG_FORMS_LINK','caag_form_link');
-define('CAAG_FORMS_ID','caag_form_id');
 define('CAAG_FORMS_SHORTCODE','caag_shortcode');
 define('CAAG_FORMS_TENANT_TOKEN','caag_tenant_token');
 define('CAAG_FORMS_USER_TOKEN','caag_user_token');
 define('CAAG_FORMS_NONCE', plugin_basename(__FILE__));
+define('CAAG_FORMS_CAAG_ID','caag_id');
+define('CAAG_FORMS_CATEGORY','caag_form_category');
+define('CAAG_FORMS_TITLE','caag_form_title');
 
 require_once 'includes/setup.php';
 require_once 'includes/utils.php';
