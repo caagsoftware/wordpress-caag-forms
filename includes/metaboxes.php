@@ -69,7 +69,10 @@ function add_meta_columns($defaults) {
 	$columns[CAAG_FORMS_LINK] = 'Link';
 	$columns[CAAG_FORMS_SHORTCODE] = 'ShortCode';
 	$client = new HttpClient();
-	$caag_forms = $client->get('https://api.caagcrm.com/api/sheets')->data;
+	$caag_forms = $client->get('https://api.caagcrm.com/api/sheets?filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]')->data;
+	//OJO 4 LLAMADAS AL API -> REVISAR
+	var_dump($caag_forms[0]);
+	echo 'newObject';
 	foreach ($caag_forms as $form){
 		if(!caag_forms_exists($form->id)){
 			$args = array(
@@ -79,8 +82,20 @@ function add_meta_columns($defaults) {
 			);
 			$post_id = wp_insert_post($args);
 			update_post_meta($post_id, CAAG_FORMS_CAAG_ID, $form->id);
-			update_post_meta($post_id, CAAG_FORMS_LINK, $form->select_2_url);
+			update_post_meta($post_id, CAAG_FORMS_LINK, $form->public_permanent_link_url);
+			update_post_meta($post_id, CAAG_FORMS_CATEGORY, $form->sheet_category);
 			update_post_meta($post_id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
+		}else{
+			update_post_meta($form->id, CAAG_FORMS_CAAG_ID, $form->id);
+			update_post_meta($form->id, CAAG_FORMS_LINK, $form->public_permanent_link_url);
+			update_post_meta($form->id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
+			if(is_null($form->sheet_category)){
+				update_post_meta($form->id, CAAG_FORMS_CATEGORY, 'General');
+			}else{
+				update_post_meta($form->id, CAAG_FORMS_CATEGORY, $form->sheet_category);
+			}
+
+
 		}
 	}
 	return $columns;
