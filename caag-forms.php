@@ -35,7 +35,7 @@ require_once 'includes/setup.php';
 require_once 'includes/utils.php';
 require_once 'includes/metaboxes.php';
 require_once 'shortcodes/shortcodes.php';
-require_once 'includes/options.php';
+include 'includes/options.php';
 require_once 'includes/HttpClient.php';
 /*
  * Install Plugin
@@ -100,9 +100,9 @@ function caag_form_menu_setting_html()
 	$settings = get_caag_user_settings();
 	?>
 	<?php if(isset($success)): ?>
-		<div class="message updated"><p><?php echo $success; ?></p>
-		</div>
-	<?php endif; ?>
+	<div class="message updated"><p><?php echo $success; ?></p>
+	</div>
+<?php endif; ?>
 	<div class="wrap">
 		<div id="wrap">
 			<h1>Caag Software Authentication Access</h1>
@@ -163,3 +163,4 @@ function get_caag_user_settings()
 	return $settings;
 }
 add_action('get_caag_user_settings','get_caag_user_settings');
+
