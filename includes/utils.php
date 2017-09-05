@@ -45,20 +45,19 @@ add_action('get_caag_form_count','get_caag_form_count');
 function get_caag_form_by_meta($meta_id)
 {
 	global $wpdb;
-	$meta = $wpdb->get_results('SELECT post_id FROM '.$wpdb->prefix.'postmeta WHERE meta_value = '.$meta_id.' and meta_key = "'.CAAG_FORMS_ID.'"');
+	$meta = $wpdb->get_results('SELECT post_id FROM '.$wpdb->prefix.'postmeta WHERE meta_value = '.$meta_id.' and meta_key = "'.CAAG_FORMS_CAAG_ID.'"');
 	return $meta;
 }
 add_action('get_caag_form_by_meta','get_caag_form_by_meta');
 
 /*
  * Save Plugin Settings
+ * return void
  */
 function save_caag_forms_settings($settings)
 {
 	update_option(CAAG_FORMS_TENANT_TOKEN,$settings[CAAG_FORMS_TENANT_TOKEN]);
 	update_option(CAAG_FORMS_USER_TOKEN,$settings[CAAG_FORMS_USER_TOKEN]);
-	//wp_redirect('option.php');
-	//exit;
 }
 add_action('save_caag_forms_settings','save_caag_forms_settings');
 function check_setting_save($settings)
@@ -73,14 +72,28 @@ function check_setting_save($settings)
 }
 add_action('check_setting_save','check_setting_save');
 
+/*
+ * Retrieves the Tenant Token from Settings
+ * @return string
+ */
 function get_caag_tenant_token()
 {
 	return get_option(CAAG_FORMS_TENANT_TOKEN);
 }
 add_action('get_caag_tenant_token','get_caag_tenant_token');
 
+/*
+ * Retrieves the User Token from Settings
+ * @return string
+ */
 function get_caag_user_token()
 {
 	return get_option(CAAG_FORMS_USER_TOKEN);
 }
 add_action('get_caag_user_token','get_caag_user_token');
+
+function caag_forms_exists($caag_id)
+{
+	return !empty(get_caag_form_by_meta($caag_id));
+}
+add_action('caag_forms_exists','caag_forms_exists');
