@@ -62,42 +62,13 @@ add_action( 'save_post', 'caag_form_save_post');
  * Only Header and Footer
  */
 add_filter('manage_'.CAAG_CUSTOM_POST_TYPE.'_posts_columns', 'add_meta_columns');
-function add_meta_columns($defaults) {
+function add_meta_columns($defaults)
+{
 	$columns[CAAG_FORMS_CAAG_ID] = 'Identifier';
 	$columns[CAAG_FORMS_TITLE] = 'Title';
 	$columns[CAAG_FORMS_CATEGORY] = 'Category';
 	$columns[CAAG_FORMS_LINK] = 'Link';
 	$columns[CAAG_FORMS_SHORTCODE] = 'ShortCode';
-	$client = new HttpClient();
-	$caag_forms = $client->get('https://api.caagcrm.com/api/sheets?filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]')->data;
-	//OJO 4 LLAMADAS AL API -> REVISAR
-	var_dump($caag_forms[0]);
-	echo 'newObject';
-	foreach ($caag_forms as $form){
-		if(!caag_forms_exists($form->id)){
-			$args = array(
-				'post_title' => $form->label,
-				'post_status' => 'publish',
-				'post_type' => CAAG_CUSTOM_POST_TYPE
-			);
-			$post_id = wp_insert_post($args);
-			update_post_meta($post_id, CAAG_FORMS_CAAG_ID, $form->id);
-			update_post_meta($post_id, CAAG_FORMS_LINK, $form->public_permanent_link_url);
-			update_post_meta($post_id, CAAG_FORMS_CATEGORY, $form->sheet_category);
-			update_post_meta($post_id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
-		}else{
-			update_post_meta($form->id, CAAG_FORMS_CAAG_ID, $form->id);
-			update_post_meta($form->id, CAAG_FORMS_LINK, $form->public_permanent_link_url);
-			update_post_meta($form->id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
-			if(is_null($form->sheet_category)){
-				update_post_meta($form->id, CAAG_FORMS_CATEGORY, 'General');
-			}else{
-				update_post_meta($form->id, CAAG_FORMS_CATEGORY, $form->sheet_category);
-			}
-
-
-		}
-	}
 	return $columns;
 }
 
@@ -181,3 +152,35 @@ function wporg_current_screen_example( $current_screen ) {
 	}
 }
 add_action( 'current_screen', 'wporg_current_screen_example' );
+
+
+function update_caag_forms()
+{
+	$client = new HttpClient();
+	$caag_forms = $client->get('https://api.caagcrm.com/api/sheets?filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]')->data;
+	foreach ($caag_forms as $form){
+		if(!caag_forms_exists($form->id)){
+			$args = array(
+				'post_title' => $form->label,
+				'post_status' => 'publish',
+				'post_type' => CAAG_CUSTOM_POST_TYPE
+			);
+			$post_id = wp_insert_post($args);
+			update_post_meta($post_id, CAAG_FORMS_CAAG_ID, $form->id);
+			update_post_meta($post_id, CAAG_FORMS_LINK, $form->public_permanent_link_url);
+			update_post_meta($post_id, CAAG_FORMS_CATEGORY, $form->sheet_category);
+			update_post_meta($post_id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
+		}else{
+			update_post_meta($form->id, CAAG_FORMS_CAAG_ID, $form->id);
+			update_post_meta($form->id, CAAG_FORMS_LINK, $form->public_permanent_link_url);
+			update_post_meta($form->id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
+			if(is_null($form->sheet_category)){
+				update_post_meta($form->id, CAAG_FORMS_CATEGORY, 'General');
+			}else{
+				update_post_meta($form->id, CAAG_FORMS_CATEGORY, $form->sheet_category);
+			}
+
+		}
+	}
+}
+add_action( 'pre_get_posts', 'update_caag_forms' );
