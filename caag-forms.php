@@ -24,14 +24,26 @@ define('CAAG_PLUGIN_FOLDER','caag-forms');
 /*
  * Special Plugin Attributtes
  */
-define('CAAG_FORMS_LINK','caag_form_link');
-define('CAAG_FORMS_SHORTCODE','caag_shortcode');
 define('CAAG_FORMS_TENANT_TOKEN','caag_tenant_token');
 define('CAAG_FORMS_USER_TOKEN','caag_user_token');
 define('CAAG_FORMS_NONCE', plugin_basename(__FILE__));
+/*
+ * MetaKeys
+ */
 define('CAAG_FORMS_CAAG_ID','caag_id');
 define('CAAG_FORMS_CATEGORY','caag_form_category');
 define('CAAG_FORMS_TITLE','caag_form_title');
+define('CAAG_FORMS_LINK','caag_form_link');
+define('CAAG_FORMS_SHORTCODE','caag_shortcode');
+/*
+ * Columns Names in Index Table
+ */
+define('CAAG_FORMS_ID_COLUMN_NAME','Identifier');
+define('CAAG_FORMS_TITLE_COLUMN_NAME','Title');
+define('CAAG_FORMS_CATEGORY_COLUMN_NAME','Category');
+define('CAAG_FORMS_LINK_COLUMN_NAME','Link');
+define('CAAG_FORMS_SHORTCODE_COLUMN_NAME','Shortcode');
+
 
 require_once 'includes/setup.php';
 require_once 'includes/utils.php';
@@ -108,14 +120,18 @@ function caag_form_menu_setting_html()
 		<div id="wrap">
 			<h1>Caag Software Authentication Access</h1>
 			<form action="" method="post">
-				<div id="titlewrap">
-					<label class="wp-heading-inline" id="title" for="title">Tenant Token</label>
-					<input type="text" name="<?php echo CAAG_FORMS_TENANT_TOKEN; ?>" size="30" value="<?php echo $settings[CAAG_FORMS_TENANT_TOKEN]; ?>" id="title" spellcheck="true" autocomplete="off">
-				</div>
-				<div id="titlewrap">
-					<label class="wp-heading-inline" id="title-prompt-text" for="title">User Token</label>
-					<input type="text" name="<?php echo CAAG_FORMS_USER_TOKEN; ?>" size="30" value="<?php echo $settings[CAAG_FORMS_USER_TOKEN]; ?>" id="title" spellcheck="true" autocomplete="off">
-				</div>
+				<table class="form-table">
+					<tbody>
+						<tr>
+							<th><label class="wp-heading-inline" id="title" for="title">Tenant Token</label></th>
+							<td> <input type="text" name="<?php echo CAAG_FORMS_TENANT_TOKEN; ?>" size="30" value="<?php echo $settings[CAAG_FORMS_TENANT_TOKEN]; ?>" id="title" spellcheck="true" autocomplete="off"></td>
+						</tr>
+						<tr>
+							<th><label class="wp-heading-inline" id="title-prompt-text" for="title">User Token</label></th>
+							<td><input type="text" name="<?php echo CAAG_FORMS_USER_TOKEN; ?>" size="30" value="<?php echo $settings[CAAG_FORMS_USER_TOKEN]; ?>" id="title" spellcheck="true" autocomplete="off"></td>
+						</tr>
+					</tbody>
+				</table>
 				<?php wp_nonce_field( CAAG_FORMS_NONCE, 'caag_nonce' ); ?>
 				<input type="submit" name="publish" id="publish" class="button button-primary button-large" value="Save">
 			</form>

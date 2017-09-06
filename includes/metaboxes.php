@@ -55,7 +55,6 @@ function caag_form_save_post( $post_id )
 }
 add_action( 'save_post', 'caag_form_save_post');
 
-
 /*
  * Add Meta Data columns to Post Table: Link
  * Only Header and Footer
@@ -63,11 +62,11 @@ add_action( 'save_post', 'caag_form_save_post');
 add_filter('manage_'.CAAG_CUSTOM_POST_TYPE.'_posts_columns', 'add_meta_columns');
 function add_meta_columns($defaults)
 {
-	$columns[CAAG_FORMS_CAAG_ID] = 'Identifier';
-	$columns[CAAG_FORMS_TITLE] = 'Title';
-	$columns[CAAG_FORMS_CATEGORY] = 'Category';
-	$columns[CAAG_FORMS_LINK] = 'Link';
-	$columns[CAAG_FORMS_SHORTCODE] = 'ShortCode';
+	$columns[CAAG_FORMS_CAAG_ID] = CAAG_FORMS_ID_COLUMN_NAME;
+	$columns[CAAG_FORMS_TITLE] = CAAG_FORMS_TITLE_COLUMN_NAME;
+	$columns[CAAG_FORMS_CATEGORY] = CAAG_FORMS_CATEGORY_COLUMN_NAME;
+	$columns[CAAG_FORMS_LINK] = CAAG_FORMS_LINK_COLUMN_NAME;
+	$columns[CAAG_FORMS_SHORTCODE] = CAAG_FORMS_SHORTCODE_COLUMN_NAME;
 	return $columns;
 }
 
@@ -114,6 +113,8 @@ function fill_meta_column_link($column_name, $post_id) {
 
 /*
  * Update Caag Form Via API
+ * @param WpQuery
+ * @returns void
  */
 function update_caag_forms($query)
 {
@@ -168,3 +169,39 @@ function delete_post_attachments($post_id) {
 	}
 }
 add_action('before_delete_post', 'delete_post_attachments');
+
+
+/*
+ * Make Id and Title Table Header sortable
+ * @param array
+ * @return array
+ */
+add_filter( 'manage_edit-'.CAAG_CUSTOM_POST_TYPE.'_sortable_columns', 'caag_forms_all_sortable_columns' );
+function caag_forms_all_sortable_columns( $columns )
+{
+	$columns[CAAG_FORMS_CAAG_ID] = 'Identifier';
+	$columns[CAAG_FORMS_TITLE] = 'Title';
+	return $columns;
+}
+
+/*
+ * Orders Columns By Id and Title in Admin Table
+ * @param WpQuery
+ * @return void
+ */
+add_action( 'pre_get_posts', 'caag_sort_by_column' );
+function caag_sort_by_column( $query )
+{
+	var_dump($query);
+	if ( ! is_admin() )
+		return;
+	if($query->query['post_type'] == CAAG_CUSTOM_POST_TYPE){
+		if($query->query['orderby'] == CAAG_FORMS_ID_COLUMN_NAME){
+			$query->set('meta_key', CAAG_FORMS_CAAG_ID );
+			$query->set('orderby', 'meta_value_num' );
+		}elseif($query->query['orderby'] == CAAG_FORMS_TITLE_COLUMN_NAME){
+			$query->set('orderby','title');
+		}
+	}
+
+}
