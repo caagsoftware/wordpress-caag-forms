@@ -1,6 +1,8 @@
 <?php
 
-
+/*
+ * Http Client Class for Api Requests
+ */
 class HttpClient
 {
 	private $data;
@@ -78,7 +80,3 @@ class HttpClient
 		return $this->data;
 	}
 }
-/*
- * Error values
- * object(stdClass)#5596 (2) { ["message"]=> string(24) "Invalid tenant api token" ["status_code"]=> int(403) }
- */

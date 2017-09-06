@@ -67,7 +67,9 @@ function caag_forms_install()
 }
 register_activation_hook(__FILE__,'caag_forms_install');
 
-
+/*
+ * Deactivation Function
+ */
 function caag_forms_deactivate()
 {
 	//Nothing To Do

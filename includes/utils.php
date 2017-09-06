@@ -102,3 +102,18 @@ function caag_forms_exists($caag_id)
 	return !empty(get_caag_form_by_meta($caag_id));
 }
 add_action('caag_forms_exists','caag_forms_exists');
+
+
+/*
+ * Option Introduce by the User
+ * 
+ */
+function get_caag_user_settings()
+{
+	$settings = array(
+		CAAG_FORMS_USER_TOKEN    => get_option(CAAG_FORMS_USER_TOKEN),
+		CAAG_FORMS_TENANT_TOKEN  => get_option(CAAG_FORMS_TENANT_TOKEN)
+	);
+	return $settings;
+}
+add_action('get_caag_user_settings','get_caag_user_settings');

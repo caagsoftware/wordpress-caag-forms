@@ -75,19 +75,12 @@ function caag_form_menu_setting_html()
 
 }
 
+/*
+ * Create Settings Options on Plugin Install
+ */
 function add_caag_forms_setting_options()
 {
 	add_option(CAAG_FORMS_TENANT_TOKEN,'');
 	add_option(CAAG_FORMS_USER_TOKEN,'');
 }
 add_action('add_caag_forms_setting_options','add_caag_forms_setting_options');
-
-function get_caag_user_settings()
-{
-	$settings = array(
-		CAAG_FORMS_USER_TOKEN    => get_option(CAAG_FORMS_USER_TOKEN),
-		CAAG_FORMS_TENANT_TOKEN  => get_option(CAAG_FORMS_TENANT_TOKEN)
-	);
-	return $settings;
-}
-add_action('get_caag_user_settings','get_caag_user_settings');
