@@ -12,10 +12,8 @@ function caag_form($atts = [])
 	if(isset(get_post_meta($post->post_id, CAAG_FORMS_LINK)[0])) {
 		$link   = get_post_meta( $post->post_id, CAAG_FORMS_LINK )[0];
 		$output = '';
-		$output .= '<div> 
-                <iframe id="caag_iframe" src="' . $link . '">
-                </iframe>
-            </div>';
+		$output .= '<iframe id="caag_iframe" src="' . $link . '">
+                    </iframe>';
 		return $output;
 	}
 }

@@ -1,9 +1,11 @@
 var iframes = iFrameResize({
         log:false,
-        scrolling: true,
         checkOrigin: false,
         maxWidth: screen.width,
         minWidth: 400,
-        minHeight: 400,
-        sizeWidth: true
+        minHeight: screen.height,
+        sizeWidth: true,
+        autoResize: true,
+        bodyMargin: 'none',
+        heightCalculationMethod: 'max'
 },'#caag_iframe' );

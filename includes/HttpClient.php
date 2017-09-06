@@ -44,4 +44,5 @@ class HttpClient
 		die();
 		return $this->data;
 	}
+	
 }

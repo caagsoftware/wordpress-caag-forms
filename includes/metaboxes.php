@@ -120,9 +120,9 @@ function update_caag_forms($query)
 {
 	if(isset($query->query['post_type']) and  $query->query['post_type'] == CAAG_CUSTOM_POST_TYPE){
 		$client = new HttpClient();
-		$caag_forms = $client->get('https://api.caagcrm.com/api/sheets?filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]')->data;
-		if(!is_null($caag_forms)){
-			foreach ($caag_forms as $form){
+		$caag_forms = $client->get('https://api.caagcrm.com/api/sheets?filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]');
+		if(!is_null($caag_forms->data) and !isset($caag_forms->message) and !isset($caag_forms->status_code)){
+			foreach ($caag_forms->data as $form){
 				if(!caag_forms_exists($form->id)){
 					$args = array(
 						'post_title' => $form->label,
@@ -150,7 +150,15 @@ function update_caag_forms($query)
 					}
 				}
 			}
-		}else{
+		}else{			
+			$output = '<div class="notice notice-error">
+							<p style="text-transform: Capitalize">Error: '.$caag_forms->message.'</p>
+						</div>
+						<div class="notice notice-error">
+							<p>Please. Check Caag Authentication Settings</p>
+						</div>	
+						';
+			echo $output;
 		}
 		}
 
