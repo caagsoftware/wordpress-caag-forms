@@ -92,6 +92,11 @@ function get_caag_user_token()
 }
 add_action('get_caag_user_token','get_caag_user_token');
 
+/*
+ * Checks if the Caag Forms Exists
+ * @param int | caag id
+ * @return boolean
+ */
 function caag_forms_exists($caag_id)
 {
 	return !empty(get_caag_form_by_meta($caag_id));

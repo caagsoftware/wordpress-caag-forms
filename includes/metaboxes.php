@@ -192,7 +192,6 @@ function caag_forms_all_sortable_columns( $columns )
 add_action( 'pre_get_posts', 'caag_sort_by_column' );
 function caag_sort_by_column( $query )
 {
-	var_dump($query);
 	if ( ! is_admin() )
 		return;
 	if($query->query['post_type'] == CAAG_CUSTOM_POST_TYPE){
@@ -203,5 +202,4 @@ function caag_sort_by_column( $query )
 			$query->set('orderby','title');
 		}
 	}
-
 }

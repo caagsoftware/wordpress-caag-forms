@@ -4,8 +4,6 @@
  * @param Array
  * return string | html
  */
-require_once CAAG_FORMS_ROOT_FILE;
-
 add_shortcode('caag_form','caag_form');
 function caag_form($atts = [])
 {
