@@ -40,43 +40,8 @@ class HttpClient
 		}
 		curl_close($ch);
 		$this->data = json_decode($data);
-		return $this->data;
-	}
-	
-	public function post($url)
-	{
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_POST, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		if(curl_error($ch)){
-			echo 'error:' . curl_error($ch);
-		}
-		if(curl_exec($ch) === false){
-			echo 'Curl error: ' . curl_error($ch);
-		}else{
-			$data = curl_exec($ch);
-		}
-		curl_close($ch);
-		$this->data = json_decode($data);
-		return $this->data;
-	}
-	public function put()
-	{
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		if(curl_error($ch)){
-			echo 'error:' . curl_error($ch);
-		}
-		if(curl_exec($ch) === false){
-			echo 'Curl error: ' . curl_error($ch);
-		}else{
-			$data = curl_exec($ch);
-		}
-		curl_close($ch);
-		$this->data = json_decode($data);
+		var_dump($this->data);
+		die();
 		return $this->data;
 	}
 }
