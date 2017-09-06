@@ -5,6 +5,5 @@ var iframes = iFrameResize({
         maxWidth: screen.width,
         minWidth: 400,
         minHeight: 400,
-        maxHeight: screen.height,
         sizeWidth: true
 },'#caag_iframe' );
