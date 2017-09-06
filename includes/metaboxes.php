@@ -1,6 +1,7 @@
 <?php
 
 require_once 'HttpClient.php';
+
 /*
  * Add all MetaBoxes
  * @return void
@@ -23,14 +24,12 @@ function caag_meta_boxes()
  */
 function caag_link_box_html()
 {
-
 	if(isset(get_post_meta(get_post()->ID, CAAG_FORMS_LINK)[0])){
 		$link = get_post_meta(get_post()->ID, CAAG_FORMS_LINK)[0];
 	}else{
 		$link = '';
 	}
 	?>
-
 	<div id="titlediv">
 		<div id="titlewrap">
 			<label class="screen-reader-text" id="title-prompt-text" for="title">Enter Link Here</label>
@@ -118,7 +117,7 @@ function fill_meta_column_link($column_name, $post_id) {
  */
 function update_caag_forms($query)
 {
-	if($query->query['post_type'] == CAAG_CUSTOM_POST_TYPE){
+	if(isset($query->query['post_type']) and  $query->query['post_type'] == CAAG_CUSTOM_POST_TYPE){
 		$client = new HttpClient();
 		$caag_forms = $client->get('https://api.caagcrm.com/api/sheets?filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]')->data;
 		foreach ($caag_forms as $form){

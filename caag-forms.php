@@ -15,9 +15,11 @@ Author URI: https://www.caagsoftware.com/
  * Global Attributtes
  */
 define('CAAG_FORMS_VERSION','0.1');
-define('CAAG_FORMS_ROOT', __FILE__);
+define('CAAG_FORMS_ROOT', __DIR__);
+define('CAAG_FORMS_ROOT_FILE', __FILE__);
 define('CAAG_CUSTOM_POST_TYPE','caag_form');
 define('CAAG_FORMS_SLUG','caag-forms');
+define('CAAG_PLUGIN_FOLDER','caag-forms');
 
 /*
  * Special Plugin Attributtes
@@ -34,9 +36,10 @@ define('CAAG_FORMS_TITLE','caag_form_title');
 require_once 'includes/setup.php';
 require_once 'includes/utils.php';
 require_once 'includes/metaboxes.php';
-require_once 'shortcodes/shortcodes.php';
-include 'includes/options.php';
+require_once 'includes/options.php';
 require_once 'includes/HttpClient.php';
+require_once 'shortcodes/shortcodes.php';
+
 /*
  * Install Plugin
  */
@@ -45,7 +48,7 @@ function caag_forms_install()
 	if(!post_type_exists(CAAG_CUSTOM_POST_TYPE) and is_admin()){
 		register_caag_forms_custom_post_type();
 		add_caag_forms_setting_options();
-		save_caag_forms_init();
+		caag_forms_scripts_registration();
 	}
 
 }
@@ -59,16 +62,13 @@ function caag_forms_deactivate()
 register_deactivation_hook(__FILE__,'caag_forms_deactivate');
 
 /*
- * Load JS
+ * Registering All Js Files
  */
-function caag_forms_scripts()
+function caag_forms_scripts_registration()
 {
-	wp_enqueue_scripts('iframe-resize',CAAG_FORMS_ROOT.'/js/iframeResizer.min.js', false);
-	wp_enqueue_scripts('iframe-resize-ie8',CAAG_FORMS_ROOT.'/js/iframe-ie8.polyfils.min.js', false);
-	wp_enqueue_scripts('iframe-resize-windos',CAAG_FORMS_ROOT.'/js/iframeResizer.contentWindow.min', false);
-	wp_enqueue_scripts('iframe-init',CAAG_FORMS_ROOT.'/js/iframe.js',false);
+	
 }
-add_action('caag_forms_scripts','caag_forms_scripts');
+add_action('caag_forms_scripts_registration','caag_forms_scripts_registration');
 
 
 /*
@@ -95,6 +95,7 @@ function caag_forms_setting_menu()
 		'caag_form_menu_setting_html'
 	);
 }
+
 function caag_form_menu_setting_html()
 {
 	$settings = get_caag_user_settings();
@@ -140,9 +141,9 @@ function caag_form_menu_setting_html()
 <?php endif; ?>
 
 	<?php if(isset($error)): ?>
-	<div class="message updated"><p><?php echo $error; ?></p>
-	</div>
-<?php endif; ?>
+		<div class="message updated"><p><?php echo $error; ?></p>
+		</div>
+	<?php endif; ?>
 	<?php
 
 }
@@ -163,4 +164,3 @@ function get_caag_user_settings()
 	return $settings;
 }
 add_action('get_caag_user_settings','get_caag_user_settings');
-
