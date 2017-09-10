@@ -40,8 +40,6 @@ class HttpClient
 		}
 		curl_close($ch);
 		$this->data = json_decode($data);
-		var_dump($this->data);
-		die();
 		return $this->data;
 	}
 	

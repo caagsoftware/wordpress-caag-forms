@@ -172,12 +172,12 @@ add_action('update_caag_forms','update_caag_forms');
  * @return void
  */
 function delete_post_attachments($post_id) {
-	if(get_post_type($post_id) == CAAG_CUSTOM_POST_TYPE){
+	global $post_type;
+	if($post_type == CAAG_CUSTOM_POST_TYPE){
 		delete_post_meta($post_id, CAAG_FORMS_CAAG_ID);
 		delete_post_meta($post_id, CAAG_FORMS_CATEGORY);
 		delete_post_meta($post_id, CAAG_FORMS_LINK);
 		delete_post_meta($post_id, CAAG_FORMS_SHORTCODE);
-
 	}
 }
 add_action('before_delete_post', 'delete_post_attachments');
