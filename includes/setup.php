@@ -37,7 +37,11 @@ function register_caag_forms_custom_post_type()
 		'hierarchical'              => false,
 		'menu_position'             => 80,
 		'supports'                  => array('title'),
-		'menu_icon'                 => 'dashicons-feedback'
+		'menu_icon'                 => 'dashicons-feedback',
+		'capabilities'              => array(
+			'create_posts' => 'do_not_allow', // false < WP 4.5
+		),
+		'map_meta_cap' => true, // Set to `false`, if users are not allowed to edit/delete existing posts
 	);
 	register_post_type(CAAG_CUSTOM_POST_TYPE, $args);
 }

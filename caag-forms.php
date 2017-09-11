@@ -1,13 +1,13 @@
 <?php
 /**
  * @package caag-forms
- * @version 0.2
+ * @version 0.3
  */
 /*
 Plugin Name: Caag Forms
 Description: Use this plugin to easily add Caag Software Forms
 Author: Miguel Faggioni
-Version: 0.2
+Version: 0.3
 Author URI: https://www.caagsoftware.com/
 */
 
@@ -20,7 +20,7 @@ define('CAAG_FORMS_ROOT_FILE', __FILE__);
 define('CAAG_CUSTOM_POST_TYPE','caag_form');
 define('CAAG_FORMS_SLUG','caag-forms');
 define('CAAG_PLUGIN_FOLDER','caag-forms');
-
+define('CAAG_API_ROUTE','https://api.caagcrm.com/api/sheets?limit=1000&filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]');
 /*
  * Special Plugin Attributtes
  */

@@ -120,7 +120,7 @@ function update_caag_forms($query)
 {
 	if(isset($query->query['post_type']) and  $query->query['post_type'] == CAAG_CUSTOM_POST_TYPE){
 		$client = new HttpClient();
-		$caag_forms = $client->get('https://api.caagcrm.com/api/sheets?filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]');
+		$caag_forms = $client->get(CAAG_API_ROUTE);
 		if(!is_null($caag_forms->data) and !isset($caag_forms->message) and !isset($caag_forms->status_code)){
 			foreach ($caag_forms->data as $form){
 				if(!caag_forms_exists($form->id)){

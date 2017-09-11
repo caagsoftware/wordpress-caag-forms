@@ -8,4 +8,4 @@ var iframes = iFrameResize({
         autoResize: true,
         bodyMargin: 'none',
         heightCalculationMethod: 'max'
-},'#caag_iframe' );
+},'#caag-iframe' );
