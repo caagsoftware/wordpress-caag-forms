@@ -21,15 +21,19 @@ function caag_forms_setting_menu()
  */
 function caag_form_menu_setting_html()
 {
+	caag_forms_styles();
 	$settings = get_caag_user_settings();
 	?>
 	<?php if(isset($success)): ?>
-		<div class="message updated"><p><?php echo $success; ?></p>
-		</div>
+		<div class="message updated"><p><?php echo $success; ?></p></div>
 	<?php endif; ?>
 	<div class="wrap">
 		<div id="wrap">
 			<h1>Caag Software Authentication Access</h1>
+			<div class="caag-notice-wp notice caag-notice">
+				<p>Don't have an account yet? Create a new account by clicking on this link</p>
+				<a href="https://caagsoftware.com/" class="caag-button caag-button-primary caag-button-external-link" target="_blank">Register Now</a>
+			</div>
 			<form action="" method="post">
 				<table class="form-table">
 					<tbody>

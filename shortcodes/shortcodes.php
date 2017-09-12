@@ -36,6 +36,9 @@ function caag_forms_scripts()
 }
 add_action('wp_enqueue_script','caag_forms_scripts');
 
+/*
+ * Register Styles
+ */
 function caag_forms_styles()
 {
 	wp_register_style('caag-iframe-style',plugins_url(CAAG_PLUGIN_FOLDER.'/css/caag.css'),array(),'1.0');
