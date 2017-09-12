@@ -41,7 +41,7 @@ function register_caag_forms_custom_post_type()
 		'capabilities'              => array(
 			'create_posts' => 'do_not_allow', // false < WP 4.5
 		),
-		'map_meta_cap' => true, // Set to `false`, if users are not allowed to edit/delete existing posts
+		'map_meta_cap' => false, // Set to `false`, if users are not allowed to edit/delete existing posts
 	);
 	register_post_type(CAAG_CUSTOM_POST_TYPE, $args);
 }
