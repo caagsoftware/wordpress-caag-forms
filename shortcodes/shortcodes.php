@@ -27,9 +27,9 @@ function caag_form($atts = [])
  */
 function caag_forms_scripts()
 {
-	wp_register_script('caag-iframe-resize', plugins_url(CAAG_PLUGIN_FOLDER.'/js/iframeResizer.min.js'), array( 'jquery' ), false, true);
-	wp_register_script('caag-iframe-resize', plugins_url(CAAG_PLUGIN_FOLDER.'/js/iframeResizer.contentWindow.min.js'), array( 'jquery' ), false, true);
-	wp_register_script('caag-iframe-init', plugins_url(CAAG_PLUGIN_FOLDER.'/js/caagResize.js'), array( 'jquery' ), '1.0', true);
+	wp_register_script('caag-iframe-resize', plugins_url(CAAG_PLUGIN_FOLDER.'/js/iframeResizer.min.js'), array( 'jquery' ));
+	wp_register_script('caag-iframe-resize', plugins_url(CAAG_PLUGIN_FOLDER.'/js/iframeResizer.contentWindow.min.js'));
+	wp_register_script('caag-iframe-init', plugins_url(CAAG_PLUGIN_FOLDER.'/js/caagResize.js'), array( 'jquery' ));
 	wp_enqueue_script('caag-iframe-resize');
 	wp_enqueue_script('caag-iframe-resize');
 	wp_enqueue_script('caag-iframe-init');
@@ -41,7 +41,7 @@ add_action('wp_enqueue_script','caag_forms_scripts');
  */
 function caag_forms_styles()
 {
-	wp_register_style('caag-iframe-style',plugins_url(CAAG_PLUGIN_FOLDER.'/css/caag.css'),array(),'1.0');
+	wp_register_style('caag-iframe-style',plugins_url(CAAG_PLUGIN_FOLDER.'/css/caag.css'),array());
 	wp_enqueue_style('caag-iframe-style');
 }
 add_action('caag_forms_styles','caag_forms_styles');
