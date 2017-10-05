@@ -34,7 +34,7 @@ function caag_forms_scripts()
 	wp_enqueue_script('caag-iframe-resize-windows');
 	wp_enqueue_script('caag-iframe-init');
 }
-add_action('wp_enqueue_script','caag_forms_scripts');
+add_action('caag_forms_scripts','caag_forms_scripts');
 
 /*
  * Register Styles
