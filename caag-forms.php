@@ -15,7 +15,7 @@ Author URI: https://www.caagsoftware.com/
  * Global Attributtes
  */
 $root = __DIR__;
-$folders = explode('\\', $root);
+$folders = explode('/', $root);
 $folder = $folders[count($folders) - 1];
 define('CAAG_FORMS_VERSION','0.1');
 define('CAAG_FORMS_ROOT', __DIR__);
