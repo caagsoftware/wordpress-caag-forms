@@ -206,11 +206,11 @@ function caag_sort_by_column( $query )
 {
 	if ( ! is_admin() )
 		return;
-	if($query->query['post_type'] == CAAG_CUSTOM_POST_TYPE){
-		if($query->query['orderby'] == CAAG_FORMS_ID_COLUMN_NAME){
+	if(isset($query->query['post_type']) and $query->query['post_type'] == CAAG_CUSTOM_POST_TYPE){
+		if(isset($query->query['orderby']) and $query->query['orderby'] == CAAG_FORMS_ID_COLUMN_NAME){
 			$query->set('meta_key', CAAG_FORMS_CAAG_ID );
 			$query->set('orderby', 'meta_value_num' );
-		}elseif($query->query['orderby'] == CAAG_FORMS_TITLE_COLUMN_NAME){
+		}elseif(isset($query->query['orderby']) and $query->query['orderby'] == CAAG_FORMS_TITLE_COLUMN_NAME){
 			$query->set('orderby','title');
 		}
 	}
