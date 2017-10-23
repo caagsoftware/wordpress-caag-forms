@@ -14,12 +14,15 @@ Author URI: https://www.caagsoftware.com/
 /*
  * Global Attributtes
  */
+$root = __DIR__;
+$folders = explode('\\', $root);
+$folder = $folders[count($folders) - 1];
 define('CAAG_FORMS_VERSION','0.1');
 define('CAAG_FORMS_ROOT', __DIR__);
 define('CAAG_FORMS_ROOT_FILE', __FILE__);
 define('CAAG_CUSTOM_POST_TYPE','caag_form');
 define('CAAG_FORMS_SLUG','caag-forms');
-define('CAAG_PLUGIN_FOLDER','caag-forms');
+define('CAAG_PLUGIN_FOLDER',$folder);
 define('CAAG_API_ROUTE','https://api.caagcrm.com/api/sheets?limit=1000&filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]');
 /*
  * Special Plugin Attributtes
