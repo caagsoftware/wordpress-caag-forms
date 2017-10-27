@@ -1,13 +1,13 @@
 <?php
 /**
  * @package caag-forms
- * @version 1.0
+ * @version 1.2
  */
 /*
 Plugin Name: Caag Forms
 Description: Use this plugin to easily add Caag Software Forms
-Author: Miguel Faggioni
-Version: 1.0
+Author: Caag Software
+Version: 1.2
 Author URI: https://www.caagsoftware.com/
 */
 
@@ -17,7 +17,7 @@ Author URI: https://www.caagsoftware.com/
 $root = __DIR__;
 $folders = explode('/', $root);
 $folder = $folders[count($folders) - 1];
-define('CAAG_FORMS_VERSION','0.1');
+define('CAAG_FORMS_VERSION','1.2');
 define('CAAG_FORMS_ROOT', __DIR__);
 define('CAAG_FORMS_ROOT_FILE', __FILE__);
 define('CAAG_CUSTOM_POST_TYPE','caag_form');
