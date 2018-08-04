@@ -12,17 +12,17 @@ function caag_forms_setting_menu()
 		'Caag Forms',
 		'manage_options',
 		'caag',
-		'caag_form_menu_setting_html'
+		'caag_forms_menu_setting_html'
 	);
 }
 /*
  * Html for Setting Screen
  * @return void
  */
-function caag_form_menu_setting_html()
+function caag_forms_menu_setting_html()
 {
-	caag_forms_styles();
-	$settings = get_caag_user_settings();
+	caag_forms_scripts();
+	$settings = caag_forms_get_caag_user_settings();
 	?>
 	<?php if(isset($success)): ?>
 		<div class="message updated"><p><?php echo $success; ?></p></div>

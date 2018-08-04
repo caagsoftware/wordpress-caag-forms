@@ -5,7 +5,7 @@
  */
 /*
 Plugin Name: Caag Forms
-Description: Use this plugin to easily add Caag Software Forms
+Description: Use this plugin to easily add your Caag Software Forms
 Author: Caag Software
 Version: 2.0.0
 Author URI: https://www.caagsoftware.com/
@@ -14,48 +14,19 @@ Author URI: https://www.caagsoftware.com/
 /*
  * Global Attributtes
  */
-$root = __DIR__;
-$folders = explode('/', $root);
-$folder = $folders[count($folders) - 1];
 define('CAAG_FORMS_VERSION','2.0.0');
-define('CAAG_FORMS_ROOT', __DIR__);
-define('CAAG_FORMS_ROOT_FILE', __FILE__);
-define('CAAG_CUSTOM_POST_TYPE','caag_form');
-define('CAAG_FORMS_SLUG','caag-forms');
-define('CAAG_PLUGIN_FOLDER',$folder);
-define('CAAG_API_ROUTE','https://api.caagcrm.com/api/sheets?limit=1000&filters=[{"type":"boolean","column":"allowed_for_public_view","value":"1"}]');
+
 /*
- * Special Plugin Attributtes
+ * Plugin Options
  */
-define('CAAG_FORMS_TENANT_TOKEN','caag_tenant_token');
-define('CAAG_FORMS_USER_TOKEN','caag_user_token');
-define('CAAG_FORMS_NONCE', plugin_basename(__FILE__));
-/*
- * MetaKeys
- */
-define('CAAG_FORMS_CAAG_ID','caag_id');
-define('CAAG_FORMS_CATEGORY','caag_form_category');
-define('CAAG_FORMS_TITLE','caag_form_title');
-define('CAAG_FORMS_LINK','caag_form_link');
-define('CAAG_FORMS_SHORTCODE','caag_shortcode');
-/*
- * Columns Names in Index Table
- */
-define('CAAG_FORMS_ID_COLUMN_NAME','Identifier');
-define('CAAG_FORMS_TITLE_COLUMN_NAME','Title');
-define('CAAG_FORMS_CATEGORY_COLUMN_NAME','Category');
-define('CAAG_FORMS_LINK_COLUMN_NAME','Link');
-define('CAAG_FORMS_SHORTCODE_COLUMN_NAME','Shortcode');
+define('CAAG_FORMS_TENANT_TOKEN','caag_forms_tenant_token');
+define('CAAG_FORMS_USER_TOKEN','caag_forms_user_token');
+define('CAAG_FORMS_USER_API_BASE_URL', 'caag_forms_user_api_base_url');
 
 /*
  * Require Plugin Files
  */
-require_once 'includes/setup.php';
-require_once 'includes/utils.php';
-require_once 'includes/metaboxes.php';
-require_once 'includes/settings.php';
-require_once 'includes/HttpClient.php';
-require_once 'shortcodes/shortcodes.php';
+require_once('modules/init.php');
 
 /*
  * Install Plugin
