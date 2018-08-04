@@ -60,7 +60,7 @@ function caag_forms_get_form_by_caag_id($caag_id)
  * Save Plugin Settings
  * return void
  */
-function save_caag_forms_settings($settings)
+function caag_forms_save_settings($settings)
 {
 	update_option(CAAG_FORMS_TENANT_TOKEN,$settings[CAAG_FORMS_TENANT_TOKEN]);
 	update_option(CAAG_FORMS_USER_TOKEN,$settings[CAAG_FORMS_USER_TOKEN]);
@@ -76,16 +76,6 @@ function caag_form_get_tenant_token()
 {
 	return get_option(CAAG_FORMS_TENANT_TOKEN, '');
 }
-
-/*
- * Retrieves the User Token from Settings
- * @return string
- */
-function caag_forms_get_user_token()
-{
-	return get_option(CAAG_FORMS_USER_TOKEN);
-}
-
 
 /*
  * Checks if the Caag Forms Exists
@@ -108,4 +98,93 @@ function caag_forms_get_caag_user_settings()
 		CAAG_FORMS_TENANT_TOKEN  => get_option(CAAG_FORMS_TENANT_TOKEN)
 	);
 	return $settings;
+}
+
+/*
+ * Update Caag Form Via API
+ * @param WpQuery
+ * @returns void
+ */
+add_action('pre_get_posts', 'caag_forms_update_forms');
+function caag_forms_update_forms($query)
+{
+    if(isset($query->query['post_type']) and  $query->query['post_type'] == CAAG_FORMS_CUSTOM_POST_TYPE){
+        $response = wp_remote_get( get_option(CAAG_FORMS_USER_API_BASE_URL) . CAAG_FORMS_API_ROUTE , caag_forms_get_api_basic_header());
+        if(is_wp_error($response)){
+
+        }else{
+            $caag_forms = json_decode($response['body']);
+        }
+        //var_dump($caag_forms);
+        if( !empty( $caag_forms ) ){
+            foreach ($caag_forms->data as $form){
+                var_dump($form);
+                die();
+                if(!caag_forms_exists($form->id)){
+                    $args = array(
+                        'post_title' => $form->label,
+                        'post_status' => 'publish',
+                        'post_type' => CAAG_FORMS_CUSTOM_POST_TYPE
+                    );
+                    $post_id = wp_insert_post($args);
+                    update_post_meta($post_id, CAAG_FORMS_CAAG_ID, $form->id);
+                    update_post_meta($post_id, CAAG_FORMS_LINK, $form->public_permanent_link_url);
+                    update_post_meta($post_id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
+                    if(is_null($form->sheet_category)){
+                        update_post_meta($post_id, CAAG_FORMS_CATEGORY, 'General');
+                    }else{
+                        update_post_meta($post_id, CAAG_FORMS_CATEGORY, $form->sheet_category);
+                    }
+                }else{
+                    $post = caag_forms_get_form_by_caag_id($form->id);
+                    update_post_meta($post->ID, CAAG_FORMS_CAAG_ID, $form->id);
+                    update_post_meta($post->ID, CAAG_FORMS_LINK, $form->public_permanent_link_url);
+                    update_post_meta($post->ID, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
+                    if(empty($form->sheet_category)){
+                        update_post_meta($post->ID, CAAG_FORMS_CATEGORY, 'General');
+                    }else{
+                        update_post_meta($post->ID, CAAG_FORMS_CATEGORY, $form->sheet_category);
+                    }
+                }
+            }
+        }else{
+            /*
+            $output = '<div class="notice notice-error">
+                        <p style="text-transform: Capitalize">Error: '.$caag_forms->message.'</p>
+                    </div>
+                    <div class="notice notice-error">
+                        <p>Please. Check Caag Authentication Settings</p>
+                    </div>	
+                    ';
+            echo $output;*/
+        }
+    }
+}
+
+
+function caag_forms_get_api_basic_header()
+{
+    $args = array(
+        'headers'   =>  array(
+            'Authorization' =>  'Basic ' . base64_encode( get_option(CAAG_FORMS_TENANT_TOKEN) . ':' . get_option(CAAG_FORMS_USER_TOKEN))
+        )
+    );
+    return $args;
+}
+
+function caag_forms_exists($caag_id)
+{
+    $args = array(
+        'post_type' =>  CAAG_FORMS_CUSTOM_POST_TYPE,
+        'meta_query'        =>      array(
+            array(
+                'key'       =>  CAAG_FORMS_CAAG_ID,
+                'value'     =>  $caag_id,
+                'compare'   =>  '='
+
+            )
+        )
+    );
+    $query = new WP_Query( $args );
+    return ! empty( $query->posts );
 }

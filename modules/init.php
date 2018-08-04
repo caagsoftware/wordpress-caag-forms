@@ -8,11 +8,11 @@
 /*
  * MetaKeys
  */
-define('CAAG_FORMS_CAAG_ID','caag_id');
-define('CAAG_FORMS_CATEGORY','caag_form_category');
-define('CAAG_FORMS_TITLE','caag_form_title');
-define('CAAG_FORMS_LINK','caag_form_link');
-define('CAAG_FORMS_SHORTCODE','caag_shortcode');
+define('CAAG_FORMS_CAAG_ID','caag_forms_caag_id');
+define('CAAG_FORMS_CATEGORY','caag_forms_caag_form_category');
+define('CAAG_FORMS_TITLE','caag_forms_caag_form_title');
+define('CAAG_FORMS_LINK','caag_forms_caag_form_link');
+define('CAAG_FORMS_SHORTCODE','caag_forms_caag_shortcode');
 /*
  * Plugins Modules
  */

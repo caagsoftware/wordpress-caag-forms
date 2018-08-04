@@ -33,11 +33,7 @@ require_once('modules/init.php');
  */
 function caag_forms_install()
 {
-	if(!post_type_exists(CAAG_CUSTOM_POST_TYPE) and is_admin()){
-		register_caag_forms_custom_post_type();
-		add_caag_forms_setting_options();
-	}
-
+    add_caag_forms_setting_options();
 }
 register_activation_hook(__FILE__,'caag_forms_install');
 

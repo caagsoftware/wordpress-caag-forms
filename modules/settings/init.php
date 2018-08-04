@@ -9,5 +9,5 @@ define('CAAG_FORMS_CATEGORY_COLUMN_NAME','Category');
 define('CAAG_FORMS_LINK_COLUMN_NAME','Link');
 define('CAAG_FORMS_SHORTCODE_COLUMN_NAME','Shortcode');
 
-require_once('metaboxes.php');
+
 require_once('settings.php');
