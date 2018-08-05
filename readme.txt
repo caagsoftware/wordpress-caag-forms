@@ -5,7 +5,7 @@ Tags: caag, forms
 Requires at least: 4.8.0
 Tested up to: 4.8.0
 Requires PHP: 5.2.4
-Stable tag: 1.2
+Stable tag: 2.0.2
 
 (this should be a list of wordpress.org userid's)
 
