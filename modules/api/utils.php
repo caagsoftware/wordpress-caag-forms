@@ -8,7 +8,7 @@ function caag_forms_get_all_forms_posts()
 {
 	$args = array(
 		'post_per_page'     =>  -1,
-		'post_type'         =>  CAAG_CUSTOM_POST_TYPE
+		'post_type'         =>  CAAG_FORMS_CUSTOM_POST_TYPE
 	);
 	$query = new WP_Query( $args );
 	return $query->posts;
@@ -105,58 +105,24 @@ function caag_forms_get_caag_user_settings()
  * @param WpQuery
  * @returns void
  */
-add_action('pre_get_posts', 'caag_forms_update_forms');
-function caag_forms_update_forms($query)
+//add_action('pre_get_posts', 'caag_forms_update_forms');
+add_action( 'load-edit.php', 'caag_forms_update_forms' );
+function caag_forms_update_forms()
 {
-    if(isset($query->query['post_type']) and  $query->query['post_type'] == CAAG_FORMS_CUSTOM_POST_TYPE){
-        $response = wp_remote_get( get_option(CAAG_FORMS_USER_API_BASE_URL) . CAAG_FORMS_API_ROUTE , caag_forms_get_api_basic_header());
-        if(is_wp_error($response)){
-
-        }else{
-            $caag_forms = json_decode($response['body']);
-        }
-        //var_dump($caag_forms);
-        if( !empty( $caag_forms ) ){
-            foreach ($caag_forms->data as $form){
-                var_dump($form);
-                die();
-                if(!caag_forms_exists($form->id)){
-                    $args = array(
-                        'post_title' => $form->label,
-                        'post_status' => 'publish',
-                        'post_type' => CAAG_FORMS_CUSTOM_POST_TYPE
-                    );
-                    $post_id = wp_insert_post($args);
-                    update_post_meta($post_id, CAAG_FORMS_CAAG_ID, $form->id);
-                    update_post_meta($post_id, CAAG_FORMS_LINK, $form->public_permanent_link_url);
-                    update_post_meta($post_id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
-                    if(is_null($form->sheet_category)){
-                        update_post_meta($post_id, CAAG_FORMS_CATEGORY, 'General');
-                    }else{
-                        update_post_meta($post_id, CAAG_FORMS_CATEGORY, $form->sheet_category);
-                    }
-                }else{
-                    $post = caag_forms_get_form_by_caag_id($form->id);
-                    update_post_meta($post->ID, CAAG_FORMS_CAAG_ID, $form->id);
-                    update_post_meta($post->ID, CAAG_FORMS_LINK, $form->public_permanent_link_url);
-                    update_post_meta($post->ID, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
-                    if(empty($form->sheet_category)){
-                        update_post_meta($post->ID, CAAG_FORMS_CATEGORY, 'General');
-                    }else{
-                        update_post_meta($post->ID, CAAG_FORMS_CATEGORY, $form->sheet_category);
-                    }
-                }
-            }
-        }else{
-            /*
-            $output = '<div class="notice notice-error">
-                        <p style="text-transform: Capitalize">Error: '.$caag_forms->message.'</p>
+    $get_data = $_GET;
+    if(!empty($get_data['post_type']) and $get_data['post_type'] == CAAG_FORMS_CUSTOM_POST_TYPE){
+        $results = caag_forms_update_form_from_api();
+        var_dump($results);
+        if(! $results['success'] ){
+            $output = '
+                    <div class="notice notice-error"> 
+                        <p style="text-transform: Capitalize">Error: '.$results['message'].'</p> 
                     </div>
-                    <div class="notice notice-error">
-                        <p>Please. Check Caag Authentication Settings</p>
-                    </div>	
+                    <div class="notice notice-error"> 
+                        <p>Please. Check Caag Authentication Settings</p> 
+                    </div>   
                     ';
-            echo $output;*/
+            echo $output;
         }
     }
 }
@@ -187,4 +153,60 @@ function caag_forms_exists($caag_id)
     );
     $query = new WP_Query( $args );
     return ! empty( $query->posts );
+}
+
+/*
+ * Update Routine
+ */
+function caag_forms_update_form_from_api()
+{
+    $response = wp_remote_get( get_option(CAAG_FORMS_USER_API_BASE_URL) . CAAG_FORMS_API_ROUTE , caag_forms_get_api_basic_header());
+    if(! is_wp_error($response) ){
+        $caag_forms = json_decode($response['body']);
+        if(empty($caag_forms->success)){
+            if( !empty( $caag_forms->data ) ){
+                foreach ($caag_forms->data as $form){
+                    if( ! caag_forms_exists($form->id) ){
+                        $args = array(
+                            'post_title' => $form->label,
+                            'post_status' => 'publish',
+                            'post_type' => CAAG_FORMS_CUSTOM_POST_TYPE
+                        );
+                        $post_id = wp_insert_post($args);
+                        update_post_meta($post_id, CAAG_FORMS_CAAG_ID, $form->id);
+                        update_post_meta($post_id, CAAG_FORMS_LINK, $form->public_permanent_link_url);
+                        update_post_meta($post_id, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
+                        if(empty($form->sheet_category)){
+                            update_post_meta($post_id, CAAG_FORMS_CATEGORY, 'General');
+                        }else{
+                            update_post_meta($post_id, CAAG_FORMS_CATEGORY, $form->sheet_category);
+                        }
+                    }else{
+                        $post = caag_forms_get_form_by_caag_id($form->id);
+                        update_post_meta($post->ID, CAAG_FORMS_CAAG_ID, $form->id);
+                        update_post_meta($post->ID, CAAG_FORMS_LINK, $form->public_permanent_link_url);
+                        update_post_meta($post->ID, CAAG_FORMS_SHORTCODE, '[caag_form id="'.$form->id.'"]');
+                        if(empty($form->sheet_category)){
+                            update_post_meta($post->ID, CAAG_FORMS_CATEGORY, 'General');
+                        }else{
+                            update_post_meta($post->ID, CAAG_FORMS_CATEGORY, $form->sheet_category);
+                        }
+                    }
+                }
+            }
+            return array(
+                'success'   =>  true
+            );
+        }else{
+            return array(
+                'success'   =>  false,
+                'message'   =>  $caag_forms->message
+            );
+        }
+    }else{
+        return array(
+            'success'   =>  false,
+            'message'   =>  'There was an Error Updating the Information... Please Try Again'
+        );
+    }
 }
