@@ -6,10 +6,10 @@
  */
 function caag_forms_register_scripts()
 {
-    wp_register_style('caag-iframe-style',plugin_dir_url( __FILE__ ) . 'css/caag.css' );
+    wp_register_style('caag-iframe-style',plugin_dir_url( __FILE__ ) . 'css/caag.css', array(), '0.0.1' );
     wp_register_script('caag-iframe-resize', plugin_dir_url( __FILE__ ) . 'js/iframeResizer.min.js');
     wp_register_script('caag-iframe-resize-windows', plugin_dir_url( __FILE__ ) . 'js/iframeResizer.contentWindow.min.js' );
-    wp_register_script('caag-iframe-init', plugin_dir_url( __FILE__ ) . 'js/caagResize.js', array( 'jquery' ));
+    wp_register_script('caag-iframe-init', plugin_dir_url( __FILE__ ) . 'js/caagResize.js', array( 'jquery' ), '0.0.1');
 }
 add_action('wp_enqueue_scripts','caag_forms_register_scripts');
 

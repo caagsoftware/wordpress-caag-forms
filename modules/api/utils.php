@@ -53,7 +53,15 @@ function caag_forms_get_form_by_caag_id($caag_id)
         )
     );
     $query = new WP_Query( $args );
-    return $query->posts[0];
+    $post = $query->posts[0];
+    $form = new stdClass();
+    $form->caag_id = get_post_meta( $post->ID, CAAG_FORMS_CAAG_ID, true );
+    $form->post_id = $post->ID;
+    $form->link = get_post_meta( $post->ID, CAAG_FORMS_LINK, true);
+    $form->category = get_post_meta( $post->ID, CAAG_FORMS_CATEGORY, true );
+    $form->title = get_post_meta( $post->ID, CAAG_FORMS_TITLE, true );
+    $form->shortcode = get_post_meta( $post->ID, CAAG_FORMS_SHORTCODE, true );
+    return $form;
 }
 
 /*

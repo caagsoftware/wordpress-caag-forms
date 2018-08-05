@@ -86,3 +86,8 @@
     text-decoration: none;
     -webkit-font-smoothing: antialiased;
 }
+#caag-iframe{
+    min-width: 100%;
+    border: none;
+    min-height: 600px;
+}
