@@ -120,7 +120,6 @@ function caag_forms_update_forms()
     $get_data = $_GET;
     if(!empty($get_data['post_type']) and $get_data['post_type'] == CAAG_FORMS_CUSTOM_POST_TYPE){
         $results = caag_forms_update_form_from_api();
-        var_dump($results);
         if(! $results['success'] ){
             $output = '
                     <div class="notice notice-error"> 
