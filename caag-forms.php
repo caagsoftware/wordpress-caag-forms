@@ -1,21 +1,21 @@
 <?php
 /**
  * @package caag-forms
- * @version 1.2
+ * @version 2.0.4
  */
 /*
 Plugin Name: Caag Forms
 Description: Use this plugin to easily add your Caag Software Forms into your Wordpress Website
 Author: Caag Software
 Text Domain: caag-forms
-Version: 2.0.3
+Version: 2.0.4
 Author URI: https://www.caagsoftware.com/
 */
 
 /*
  * Global Attributtes
  */
-define('CAAG_FORMS_VERSION','2.0.3');
+define('CAAG_FORMS_VERSION','2.0.4');
 
 /*
  * Plugin Options
